@@ -1,24 +1,26 @@
-name : Python CI
-
-## Trigger the workflow on push or pull request to the main branch
+name: Python CI
 
 on:
   push:
     branches:
-        - main
+      - main
   pull_request:
-    branches: 
-        - main
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # Opt in early to Node.js 24
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -27,5 +29,3 @@ jobs:
       - name: Run tests
         run: |
           python -m pytest
-
-
